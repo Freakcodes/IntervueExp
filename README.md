@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎤 IntervueExp
 
-## Getting Started
+**IntervueExp** is a community-driven platform where students can share **real interview experiences** — on-campus or off-campus — without creating an account.  
+The goal is to help students prepare smarter by learning from the **successes, failures, and honest insights** of others.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Why IntervueExp?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Most interview platforms:
+- Require sign-ups
+- Hide real rejection stories
+- Focus only on selected candidates
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+**IntervueExp focuses on reality.**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- ✅ Selected or rejected — both experiences matter
+- 🕵️ Anonymous by default
+- ⚡ No login, no friction
+- 🧠 Learn actual question patterns and preparation insights
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ✨ Key Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🔓 No Login Required
+Users can post interview experiences instantly without creating an account.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🔐 Secure Edit/Delete via Unique Edit ID
+- Each post generates a **one-time private Edit ID**
+- Users can edit or delete their post using this ID
+- Edit IDs are **hashed and stored securely**
+- No personal data is collected
 
-## Deploy on Vercel
+### 🧩 Structured Interview Experience
+Each post includes:
+- Company name
+- Role
+- On-campus / Off-campus
+- Interview rounds
+- Questions asked
+- Difficulty level
+- Final result (Selected / Rejected / Waiting)
+- Tips & mistakes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 📊 Filter & Discover
+- Filter by company, role, result, interview type
+- Discover trends in interview questions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 👍 Community Feedback
+- “Helpful” voting on experiences
+- Sort by most useful posts
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- **Next.js (App Router)**
+- React
+- Tailwind CSS
+
+### Backend
+- Next.js API Routes
+- Server Components
+
+### Database
+- PostgreSQL (via Supabase / Neon)
+- Prisma ORM (planned)
+
+### Security
+- Hashed Edit IDs
+- Rate limiting (planned)
+- Spam prevention
+
+---
+
+## 🧠 Architecture Overview
+
+- **Full-stack Next.js**
+- SEO-optimized pages for interview experiences
+- Server-side rendering for fast load and discoverability
+- No authentication system — ownership managed via Edit IDs
+
+---
+
+## 📁 Project Structure (Planned)
+
