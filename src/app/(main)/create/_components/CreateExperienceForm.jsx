@@ -15,8 +15,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
-
+import { createExperience } from "@/app/actions/experience";
+import { useRouter } from "next/navigation";
+import CopyText from "@/components/CopyText";
 export default function CreateExperienceForm() {
+  const router = useRouter();
   const form = useForm({
     defaultValues: {
       name: "",
@@ -35,16 +38,23 @@ export default function CreateExperienceForm() {
   const interviewType = watch("interviewType");
   const result = watch("result");
 
-  function onSubmit(data) {
-    const payload = {
-      ...data,
-      tags: data.tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
-    };
+  const [loading, setLoading] = useState(false);
+  const [editToken, setEditToken] = useState("");
+  async function onSubmit(data) {
+    try {
+      setLoading(true);
+      const res = await createExperience(data);
 
-    console.log(payload);
+      if (res.success) {
+        form.reset();
+        // router.push("/explore");
+        setEditToken(res.editToken);
+      }
+    } catch {
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -55,10 +65,7 @@ export default function CreateExperienceForm() {
 
       <CardContent>
         <Form {...form}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-5"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Name (Optional) */}
             <FormField
               control={form.control}
@@ -72,7 +79,8 @@ export default function CreateExperienceForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Your Name <span className="text-muted-foreground">(optional)</span>
+                    Your Name{" "}
+                    <span className="text-muted-foreground">(optional)</span>
                   </FormLabel>
                   <FormControl>
                     <Input placeholder="Anonymous or your name" {...field} />
@@ -107,7 +115,10 @@ export default function CreateExperienceForm() {
                 <FormItem>
                   <FormLabel>Role</FormLabel>
                   <FormControl>
-                    <Input placeholder="SDE Intern, Backend Engineer..." {...field} />
+                    <Input
+                      placeholder="SDE Intern, Backend Engineer..."
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -173,7 +184,9 @@ export default function CreateExperienceForm() {
                     </Badge>
 
                     <Badge
-                      variant={result === "Rejected" ? "destructive" : "outline"}
+                      variant={
+                        result === "Rejected" ? "destructive" : "outline"
+                      }
                       className="cursor-pointer"
                       onClick={() => setValue("result", "Rejected")}
                     >
@@ -234,10 +247,19 @@ export default function CreateExperienceForm() {
 
             {/* Submit */}
             <div className="flex justify-end">
-              <Button type="submit" className="px-8">
-                Submit Experience
+              <Button type="submit" disabled={loading}>
+                {loading ? "Submitting..." : "Submit Experience"}
               </Button>
             </div>
+            {editToken && (
+              <div className="flex items-center gap-2">
+                <FormLabel>
+                  Copy this text if you wish to edit/delete your experience post later
+                </FormLabel>
+                <code className="px-2 py-1 rounded bg-muted">{editToken}</code>
+                <CopyText text={editToken} />
+              </div>
+            )}
           </form>
         </Form>
       </CardContent>

@@ -1,8 +1,13 @@
 import ExperienceMiniCard from "./ExperienceMiniCard";
+import { getExperiences } from "@/app/actions/experience";
 
-const experiences = [1, 2, 3, 4, 5, 6, 7, 8];
+export default async function ExperienceMarquee() {
+  const experiences = await getExperiences();
 
-export default function ExperienceMarquee() {
+  if (!experiences || experiences.length === 0) {
+    return null;
+  }
+
   return (
     <div className="relative overflow-hidden py-6">
       <div className="mb-3">
@@ -17,8 +22,8 @@ export default function ExperienceMarquee() {
       {/* Marquee */}
       <div className="marquee">
         <div className="marquee-track">
-          {[...experiences, ...experiences].map((id, index) => (
-            <ExperienceMiniCard key={index} id={id} />
+          {[...experiences, ...experiences].map((exp, index) => (
+            <ExperienceMiniCard key={`${exp.id}-${index}`} exp={exp} />
           ))}
         </div>
       </div>
