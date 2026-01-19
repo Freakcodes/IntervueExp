@@ -70,7 +70,7 @@ export default function ExperienceCard({ experience }) {
         </Badge>
 
         {/* Read More */}
-        <Link href={`/exp/${id}`}>
+        <Link href={`/explore/${id}`}>
           <Button size="sm" variant="ghost">
             Read more →
           </Button>

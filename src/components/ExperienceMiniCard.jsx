@@ -11,7 +11,7 @@ export default function ExperienceMiniCard({ exp }) {
   const primaryTag = exp.tags?.[0] ?? "General";
 
   return (
-    <Link href={`/exp/${exp.id}`}>
+    <Link href={`/explore/${exp.id}`}>
       <Card className="w-[200px] cursor-pointer hover:shadow-md transition-shadow">
         <div className="p-3 space-y-1.5">
           {/* Title */}

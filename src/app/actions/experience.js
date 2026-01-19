@@ -67,7 +67,7 @@ export async function createExperience(data) {
         parsedTags,
         experience,
         editToken,
-      ]
+      ],
     );
 
     revalidatePath("/explore");
@@ -84,8 +84,6 @@ export async function createExperience(data) {
     };
   }
 }
-
-
 
 export async function getExperiences() {
   try {
@@ -109,5 +107,39 @@ export async function getExperiences() {
   } catch (error) {
     console.error("Get experiences error:", error);
     throw new Error("Failed to fetch experiences");
+  }
+}
+
+/**
+ * Fetch a single interview experience by ID
+ */
+export async function getExperiencesById(id) {
+  if (!id) return null;
+
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT
+        id,
+        name,
+        company,
+        role,
+        college,
+        interview_type AS "interviewType",
+        result,
+        tags,
+        experience,
+        created_at
+      FROM experiences
+      WHERE id = $1
+      LIMIT 1;
+      `,
+      [id],
+    );
+
+    return rows[0] || null;
+  } catch (error) {
+    console.error("Error fetching experience by id:", error);
+    return null;
   }
 }
