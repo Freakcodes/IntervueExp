@@ -11,10 +11,10 @@ export default async function ExperiencePage({ params }) {
   
   
   const { id } = await params;
-  console.log(id);
+ 
   
   const exp = await getExperiencesById(id);
-  console.log(exp);
+ 
   
   if (!exp) return notFound();
   

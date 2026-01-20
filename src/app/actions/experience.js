@@ -143,3 +143,58 @@ export async function getExperiencesById(id) {
     return null;
   }
 }
+
+
+export async function searchExperiences({
+  query = "",
+  result = "all",
+  page = 1,
+  limit = 10,
+}) {
+  const values=[];
+  const conditions=[];
+
+  // Search by company
+  if (query) {
+    values.push(`%${query}%`);
+    conditions.push(`company ILIKE $${values.length}`);
+  }
+
+  // Filter by result
+  if (result !== "all") {
+    values.push(result);
+    conditions.push(`result = $${values.length}`);
+  }
+
+  const whereClause =
+    conditions.length > 0
+      ? `WHERE ${conditions.join(" AND ")}`
+      : "";
+
+  // Pagination
+  const offset = (page - 1) * limit;
+  values.push(limit);
+  values.push(offset);
+
+  const sql = `
+    SELECT
+      id,
+      name,
+      company,
+      role,
+      college,
+      interview_type AS "interviewType",
+      result,
+      tags,
+      experience,
+      created_at
+    FROM experiences
+    ${whereClause}
+    ORDER BY created_at DESC
+    LIMIT $${values.length - 1}
+    OFFSET $${values.length};
+  `;
+
+  const { rows } = await pool.query(sql, values);
+  return rows;
+}
