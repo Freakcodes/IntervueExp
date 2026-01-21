@@ -23,7 +23,6 @@ export default function Footer() {
 
       <div className="relative border-t border-primary/20">
         <div className="max-w-6xl mx-auto px-6 py-14 space-y-12">
-
           {/* Community Section */}
           <div className="grid md:grid-cols-2 gap-10">
             <div className="space-y-3">
@@ -91,8 +90,22 @@ export default function Footer() {
           </div>
 
           {/* Bottom */}
-          <div className="pt-6 border-t border-primary/20 text-xs text-muted-foreground flex flex-col sm:flex-row justify-between">
+          {/* Bottom */}
+          <div className="pt-6 border-t border-primary/20 text-xs text-muted-foreground flex flex-col sm:flex-row justify-between gap-2">
             <span>© {new Date().getFullYear()} IntervueExp</span>
+
+            <span>
+              Developed by{" "}
+              <a
+                href="https://abhayg.netlify.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-primary hover:underline"
+              >
+                Freakcodes
+              </a>
+            </span>
+
             <span>Built with care for aspirants 🚀</span>
           </div>
         </div>

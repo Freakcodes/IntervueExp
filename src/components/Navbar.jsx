@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import ShareButton from "./ShareButton";
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
@@ -25,9 +26,7 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-4">
-          <Link href="/submit">
-            <Button size="sm">Share</Button>
-          </Link>
+          <ShareButton />
 
           {/* Dark Mode Toggle */}
           <div className="flex items-center gap-2">
