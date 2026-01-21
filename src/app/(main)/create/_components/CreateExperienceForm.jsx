@@ -30,12 +30,15 @@ export default function CreateExperienceForm() {
       result: "",
       tags: "",
       experience: "",
+      experienceLevel:"",
+      additionalTips:""
     },
   });
 
   const { handleSubmit, setValue, watch } = form;
 
   const interviewType = watch("interviewType");
+  const experienceLevel= watch("experienceLevel");
   const result = watch("result");
 
   const [loading, setLoading] = useState(false);
@@ -105,8 +108,30 @@ export default function CreateExperienceForm() {
                 </FormItem>
               )}
             />
-
-            {/* Role */}
+             <FormField
+              control={form.control}
+              name="experienceLevel"
+              rules={{ required: "Select interview type" }}
+              render={() => (
+                <FormItem>
+                  <FormLabel>Experience Level</FormLabel>
+                  <div className="flex gap-2">
+                    {["Fresher", "Experienced"].map((type) => (
+                      <Badge
+                        key={type}
+                        variant={experienceLevel === type ? "default" : "outline"}
+                        className="cursor-pointer"
+                        onClick={() => setValue("experienceLevel", type)}
+                      >
+                        {type}
+                      </Badge>
+                    ))}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            
+            />
             <FormField
               control={form.control}
               name="role"
@@ -237,6 +262,25 @@ export default function CreateExperienceForm() {
                     <Textarea
                       className="min-h-[180px]"
                       placeholder="Explain interview rounds, questions, preparation, mistakes, tips..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="additionalTips"
+              
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Additional Tips</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="min-h-[180px]"
+                      placeholder="Any tips that aspirants should keep in mind"
                       {...field}
                     />
                   </FormControl>

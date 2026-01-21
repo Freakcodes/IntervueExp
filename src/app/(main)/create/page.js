@@ -8,7 +8,7 @@ export default function CreatePage() {
           Share Your Interview Experience
         </h1>
         <p className="text-muted-foreground mt-1">
-          Help juniors by sharing your real interview journey. No account needed.
+          Help Job Aspirants by sharing your real interview journey. No account needed.
         </p>
       </div>
 

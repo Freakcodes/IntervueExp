@@ -24,6 +24,8 @@ export async function createExperience(data) {
     result,
     tags,
     experience,
+    experienceLevel,
+    additionalTips
   } = data;
 
   if (!company || !role || !interviewType || !result || !experience) {
@@ -53,9 +55,11 @@ export async function createExperience(data) {
         result,
         tags,
         experience,
-        edit_token
+        edit_token,
+        experience_level,
+        additional_tips
       )
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
       `,
       [
         name || null,
@@ -67,6 +71,8 @@ export async function createExperience(data) {
         parsedTags,
         experience,
         editToken,
+        experienceLevel,
+        additionalTips || null
       ],
     );
 
@@ -129,6 +135,8 @@ export async function getExperiencesById(id) {
         result,
         tags,
         experience,
+        experience_level AS "experienceLevel",
+        additional_tips AS "additionalTips",
         created_at
       FROM experiences
       WHERE id = $1
@@ -155,10 +163,13 @@ export async function searchExperiences({
   const conditions=[];
 
   // Search by company
+  //by using like
   if (query) {
     values.push(`%${query}%`);
     conditions.push(`company ILIKE $${values.length}`);
   }
+
+
 
   // Filter by result
   if (result !== "all") {
@@ -198,3 +209,79 @@ export async function searchExperiences({
   const { rows } = await pool.query(sql, values);
   return rows;
 }
+
+export async function getExperienceByEditToken(token) {
+  const { rows } = await pool.query(
+    `
+    SELECT
+      id,
+      name,
+      company,
+      role,
+      college,
+      interview_type AS "interviewType",
+      result,
+      tags,
+      experience,
+      experience_level AS "experienceLevel",
+      additional_tips AS "additionalTips"
+    FROM experiences
+    WHERE edit_token = $1
+    LIMIT 1
+    `,
+    [token]
+  );
+
+  return rows[0] || null;
+}
+
+
+export async function updateExperience(token, data) {
+  const {
+    name,
+    company,
+    role,
+    college,
+    interviewType,
+    result,
+    tags,
+    experience,
+    experienceLevel,
+    additionalTips,
+  } = data;
+
+  await pool.query(
+    `
+    UPDATE experiences
+    SET
+      name = $1,
+      company = $2,
+      role = $3,
+      college = $4,
+      interview_type = $5,
+      result = $6,
+      tags = string_to_array($7, ','),
+      experience = $8,
+      experience_level = $9,
+      additional_tips = $10
+    WHERE edit_token = $11
+    `,
+    [
+      name,
+      company,
+      role,
+      college,
+      interviewType,
+      result,
+      tags,
+      experience,
+      experienceLevel,
+      additionalTips,
+      token,
+    ]
+  );
+
+  return { success: true };
+}
+
+

@@ -23,6 +23,10 @@ export default function SearchBar() {
     searchParams.get("result") || "all"
   );
 
+  const [experience,setExperience]=useState(
+    searchParams.get("exp")||"all"
+  )
+
   useEffect(() => {
     const timer = setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString());
