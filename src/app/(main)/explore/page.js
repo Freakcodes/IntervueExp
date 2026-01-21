@@ -2,7 +2,11 @@ import { searchExperiences } from "@/app/actions/experience";
 import ExperienceCard from "./_components/ExperienceCard";
 import SearchBar from "./_components/SearchBar";
 import PaginationControls from "./_components/PaginationControls";
-
+export const metadata = {
+  title: "Explore Interview Experiences",
+  description:
+    "Browse real interview experiences by company, role, and result. Learn what actually happens in interviews.",
+};
 export default async function ExplorePage({ searchParams }) {
   const { query, result,page } = await searchParams;
   const limit=10;

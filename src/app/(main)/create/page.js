@@ -1,5 +1,9 @@
 import CreateExperienceForm from "./_components/CreateExperienceForm";
-
+export const metadata = {
+  title: "Share Your Interview Experience",
+  description:
+    "Share your real interview experience anonymously and help others prepare better.",
+};
 export default function CreatePage() {
   return (
     <div className="w-full max-w-3xl mx-auto px-6 py-8">

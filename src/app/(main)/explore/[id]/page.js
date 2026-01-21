@@ -7,6 +7,24 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getExperiencesById } from "@/app/actions/experience";
 
+
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const exp = await getExperiencesById(id);
+
+  if (!exp) {
+    return {
+      title: "Interview Experience Not Found",
+    };
+  }
+
+  return {
+    title: `${exp.company} ${exp.role} Interview Experience`,
+    description: exp.experience.slice(0, 150),
+  };
+}
+
 export default async function ExperiencePage({ params }) {
   const { id } = await params;
   console.log(id);
