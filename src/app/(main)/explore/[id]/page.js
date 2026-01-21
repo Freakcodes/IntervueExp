@@ -9,9 +9,10 @@ import { getExperiencesById } from "@/app/actions/experience";
 
 export default async function ExperiencePage({ params }) {
   const { id } = await params;
-
+  console.log(id);
   const exp = await getExperiencesById(id);
-
+  
+  
   if (!exp) return notFound();
 
   return (

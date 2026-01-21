@@ -4,8 +4,12 @@ import { getExperienceByEditToken } from "@/app/actions/experience";
 import EditExperienceForm from "@/components/EditExperienceForm";
 
 export default async function EditPage({ params }) {
-  const { token } = params;
-
+ 
+  
+  const  {id} =await params;
+   const token=id;
+ 
+  
   const experience = await getExperienceByEditToken(token);
 
   if (!experience) return notFound();

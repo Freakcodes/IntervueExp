@@ -120,6 +120,10 @@ export async function getExperiences() {
  * Fetch a single interview experience by ID
  */
 export async function getExperiencesById(id) {
+
+
+  console.log('I am here');
+  
   if (!id) return null;
 
   try {

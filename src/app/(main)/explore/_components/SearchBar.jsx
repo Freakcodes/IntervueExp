@@ -27,31 +27,40 @@ export default function SearchBar() {
     searchParams.get("exp")||"all"
   )
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
+useEffect(() => {
+  const timer = setTimeout(() => {
+    const params = new URLSearchParams(searchParams.toString());
 
-      if (query.trim()) {
-        params.set("query", query.trim());
-      } else {
-        params.delete("query");
-      }
+    const nextQuery = query.trim();
+    const nextResult = result;
 
-      if (result !== "all") {
-        params.set("result", result);
-      } else {
-        params.delete("result");
-      }
+    // Build next params
+    if (nextQuery) {
+      params.set("query", nextQuery);
+    } else {
+      params.delete("query");
+    }
 
-      params.set("page", "1"); // reset pagination on search
+    if (nextResult !== "all") {
+      params.set("result", nextResult);
+    } else {
+      params.delete("result");
+    }
 
-      router.push(`/explore?${params.toString()}`, {
-        scroll: false,
-      });
-    }, 300);
+    params.set("page", "1");
 
-    return () => clearTimeout(timer);
-  }, [query, result, router, searchParams]);
+    const nextUrl = `/explore?${params.toString()}`;
+    const currentUrl = `/explore?${searchParams.toString()}`;
+
+    // 🚨 CRITICAL GUARD
+    if (nextUrl !== currentUrl) {
+      router.push(nextUrl, { scroll: false });
+    }
+  }, 300);
+
+  return () => clearTimeout(timer);
+}, [query, result,router, searchParams]);
+
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
@@ -74,7 +83,11 @@ export default function SearchBar() {
           <SelectItem value="Selected">Selected</SelectItem>
           <SelectItem value="Rejected">Rejected</SelectItem>
         </SelectContent>
+
+        
       </Select>
+
+      
     </div>
   );
 }
