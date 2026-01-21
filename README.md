@@ -66,7 +66,7 @@ Each post includes:
 
 ### Database
 - PostgreSQL (via Supabase / Neon)
-- Prisma ORM (planned)
+
 
 ### Security
 - Hashed Edit IDs
