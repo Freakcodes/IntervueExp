@@ -11,6 +11,8 @@ export default async function ExplorePage({ searchParams }) {
   const { query, result,page } = await searchParams;
   const limit=10;
   const currentPage = Number(page) || 1;
+
+ 
   const experiences = await searchExperiences({
     query: query || "",
     result: result || "all",

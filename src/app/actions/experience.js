@@ -1,6 +1,7 @@
 "use server";
 
 import pool from "@/lib/db";
+import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 function generateEditToken(length = 8) {
@@ -122,7 +123,7 @@ export async function getExperiences() {
 export async function getExperiencesById(id) {
 
 
-  console.log('I am here');
+ 
   
   if (!id) return null;
 
@@ -138,9 +139,11 @@ export async function getExperiencesById(id) {
         interview_type AS "interviewType",
         result,
         tags,
+
         experience,
         experience_level AS "experienceLevel",
         additional_tips AS "additionalTips",
+        views,
         created_at
       FROM experiences
       WHERE id = $1
@@ -287,5 +290,31 @@ export async function updateExperience(token, data) {
 
   return { success: true };
 }
+
+export async function trackExperienceView(id) {
+  const cookieStore = await cookies();
+  const cookieName = `viewed-${id}`;
+
+  // Already viewed → do nothing
+  if (cookieStore.get(cookieName)) {
+    return { viewed: false };
+  }
+
+  // Increment views
+  await pool.query(
+    `UPDATE experiences SET views = views + 1 WHERE id = $1`,
+    [id]
+  );
+
+  // Set cookie (24 hours)
+  cookieStore.set(cookieName, "true", {
+    maxAge: 60 * 60 * 24,
+    httpOnly: true,
+    sameSite: "lax",
+  });
+
+  return { viewed: true };
+}
+
 
 
